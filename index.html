@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marmeto News</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container" id="sectionTop">
+        <div class="title-container">
+            <h1 class='latest-news-title'>Latest News</h1>
+            <h4 class="mini-title">Keep up to date with all latest news.</h4>
+            <div class="news-main-container"></div>
+            
+            <script type="text/javascript">
+                async function getData(){
+                    try{
+                        let response = await fetch('https://cdn.shopify.com/s/files/1/0856/4454/2232/files/habitatstyled-blog-posts.json?v=1707400041');
+                        let data = await response.json();
+                        let {blocks} = data;
+                        return blocks
+                    }
+                    catch(error){
+                        throw error
+                    }
+                }
+                
+                getData().then((blocks)=>{
+                    
+                    let newsContainer = document.createElement('div');
+                    let eachBlock = blocks.forEach((each)=>{
+                        let newsEL = document.createElement('div')
+                        newsEL.classList.add('news-El-container')
+                        let imgEl = document.createElement('img');
+                        imgEl.setAttribute('src',each.settings.article_image)
+                        if (each.settings.article_image=="https://cdn.shopify.com/s/files/1/0856/4454/2232/files/blog-1.webp?v=1707387849"){
+                            
+                            imgEl.classList.add('img1')
+                        }
+                        else if (each.settings.article_image=="https://cdn.shopify.com/s/files/1/0856/4454/2232/files/blog-2.webp?v=1707387849"){
+                            imgEl.classList.add('img2')
+                        }
+                        else if (each.settings.article_image=="https://cdn.shopify.com/s/files/1/0856/4454/2232/files/blog-3.webp?v=1707387849"){
+                            imgEl.classList.add('img3')
+                        }
+                        let dateEL = document.createElement('p');
+                        dateEL.textContent=each.settings.article_published_date;
+                        dateEL.classList.add('date')
+                        
+                        let titleEl = document.createElement('h3');
+                        titleEl.textContent= each.settings.article_title;
+                        titleEl.classList.add('article-title')
+                        let titleLinkEl = document.createElement('a')
+                        titleLinkEl.textContent = 'READ MORE'
+                        titleLinkEl.setAttribute('href',each.settings.article_url)
+                        titleLinkEl.classList.add('read-more')
+                        let lineEl = document.createElement('hr')
+                        lineEl.classList.add('hr-line')
+
+                        
+                        
+                        newsEL.appendChild(imgEl)
+                        newsEL.appendChild(dateEL)
+                        newsEL.appendChild(titleEl)
+                        newsEL.appendChild(titleLinkEl)
+                        newsEL.appendChild(lineEl)
+                        newsEL.setAttribute('href',each.settings.article_url)
+                        newsContainer.appendChild(newsEL)
+                        newsContainer.classList.add('news-container')
+                        
+                    })
+                    let topContainer = document.getElementById('sectionTop')
+                    let btnContainerEl = document.createElement('div')
+                    btnContainerEl.classList.add('btn-container')
+                    let btnEL = document.createElement('button');
+                        btnEL.textContent='VIEW ALL POSTS'
+                        btnEL.classList.add('all-posts')
+                    btnContainerEl.appendChild(btnEL)
+                    let arrowLinkEl = document.createElement('a')
+                    arrowLinkEl.classList.add('arrow-link')
+                    arrowLinkEl.setAttribute('href','#')
+                    let upArrowBtnContainerEl = document.createElement('div')
+                    upArrowBtnContainerEl.classList.add('arrow-container')
+                    let upArrow =document.createElement('button')
+                    upArrow.textContent = '↑';
+                    upArrow.classList.add('up-arrow')
+                    upArrowBtnContainerEl.appendChild(upArrow)
+                    arrowLinkEl.appendChild(upArrowBtnContainerEl)
+                    
+                    document.body.appendChild(newsContainer)
+                    document.body.append(btnContainerEl)
+                    document.body.appendChild(arrowLinkEl)
+
+                   
+                })
+            </script>
+        </div>
+
+    </div>
+    
+</body>
+</html>
